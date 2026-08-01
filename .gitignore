@@ -1,0 +1,52 @@
+# ==========================
+# Python
+# ==========================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# ==========================
+# Virtual Environment
+# ==========================
+.venv/
+venv/
+env/
+
+# ==========================
+# IDE
+# ==========================
+.idea/
+.vscode/
+
+# ==========================
+# Environment Variables
+# ==========================
+.env
+
+# ==========================
+# Models
+# ==========================
+models/*
+!models/.gitkeep
+
+# ==========================
+# Processed Data
+# ==========================
+data/processed/*
+!data/processed/.gitkeep
+
+# ==========================
+# Figures
+# ==========================
+figures/*
+!figures/.gitkeep
+
+# ==========================
+# OS Files
+# ==========================
+.DS_Store
+Thumbs.db
+
+# Raw Dataset
+data/raw/*
+!data/raw/.gitkeep
