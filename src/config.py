@@ -38,9 +38,9 @@ RANDOM_STATE = 42
 
 VALIDATION_SPLIT = 0.20
 
-EPOCHS = 15
+EPOCHS = 10
 
-LEARNING_RATE = 0.001
+LEARNING_RATE = 0.0001
 
 # ==========================================================
 # MODEL FILE
