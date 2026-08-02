@@ -26,6 +26,12 @@ MODELS_DIR = PROJECT_ROOT / "models"
 
 FIGURES_DIR = PROJECT_ROOT / "figures"
 
+CONFUSION_MATRIX_FIGURE = FIGURES_DIR / "confusion_matrix.png"
+
+ACCURACY_FIGURE = FIGURES_DIR / "accuracy_curve.png"
+
+LOSS_FIGURE = FIGURES_DIR / "loss_curve.png"
+
 # ==========================================================
 # MODEL PARAMETERS
 # ==========================================================
@@ -47,3 +53,7 @@ LEARNING_RATE = 0.0001
 # ==========================================================
 
 MODEL_FILE = MODELS_DIR / "plant_disease_classifier.keras"
+
+HISTORY_FILE = MODELS_DIR / "training_history.json"
+
+CLASS_NAMES_FILE = MODELS_DIR / "class_names.json"
