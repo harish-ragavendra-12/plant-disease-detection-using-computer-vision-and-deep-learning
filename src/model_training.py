@@ -5,12 +5,13 @@ Plant Disease Detection Using Computer Vision & Deep Learning
 File: model_training.py
 
 Description:
-Builds, trains and saves the MobileNetV2 transfer learning
-model.
+Builds, trains, and saves the MobileNetV2 transfer learning
+model along with the training history.
 
 ==========================================================
 """
 
+import json
 import tensorflow as tf
 
 from tensorflow.keras.applications import MobileNetV2
@@ -27,6 +28,8 @@ from config import (
     LEARNING_RATE,
     EPOCHS,
     MODEL_FILE,
+    HISTORY_FILE,
+    CLASS_NAMES_FILE,
 )
 
 from preprocessing import preprocess_dataset
@@ -39,6 +42,16 @@ from preprocessing import preprocess_dataset
 def build_model(num_classes):
     """
     Build MobileNetV2 Transfer Learning Model.
+
+    Parameters
+    ----------
+    num_classes : int
+        Number of disease classes.
+
+    Returns
+    -------
+    tensorflow.keras.Model
+        Compiled MobileNetV2 model.
     """
 
     base_model = MobileNetV2(
@@ -47,12 +60,11 @@ def build_model(num_classes):
         input_shape=IMAGE_SIZE + (3,),
     )
 
+    # Freeze pretrained layers
     base_model.trainable = False
 
     x = base_model.output
-
     x = GlobalAveragePooling2D()(x)
-
     x = Dropout(0.30)(x)
 
     output = Dense(
@@ -82,7 +94,15 @@ def build_model(num_classes):
 
 def train_model():
     """
-    Train MobileNetV2 model.
+    Train the MobileNetV2 model.
+
+    Returns
+    -------
+    model : tensorflow.keras.Model
+        Trained model.
+
+    history : tensorflow.keras.callbacks.History
+        Training history.
     """
 
     train_dataset, validation_dataset, class_names = preprocess_dataset()
@@ -104,13 +124,25 @@ def train_model():
         verbose=1,
     )
 
+    # Create models directory if it doesn't exist
     MODEL_FILE.parent.mkdir(
+        parents=True,
         exist_ok=True,
     )
 
-    model.save(
-        MODEL_FILE,
-    )
+    # Save training history
+    with open(HISTORY_FILE, "w") as file:
+        json.dump(history.history, file, indent=4)
+
+    print(f"\nTraining history saved to: {HISTORY_FILE}")
+
+    with open(CLASS_NAMES_FILE, "w") as file:
+        json.dump(class_names, file, indent=4)
+
+    print(f"Class names saved to: {CLASS_NAMES_FILE}")
+
+    # Save trained model
+    model.save(MODEL_FILE)
 
     print("\n" + "=" * 60)
     print("MODEL TRAINING COMPLETED")
@@ -121,10 +153,13 @@ def train_model():
 
 
 # ==========================================================
-# MAIN
+# MAIN FUNCTION
 # ==========================================================
 
 def main():
+    """
+    Execute model training.
+    """
 
     train_model()
 
